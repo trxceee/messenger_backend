@@ -91,7 +91,7 @@ export class ChatService {
     });
 
     if (files?.length) {
-      await this.attachFilesToMessage(message.id, files);
+      await this.attachFilesToMessage(message.id, chatId, files);
     }
 
     const fullMessage = await this.prismaService.message.findUnique({
@@ -129,8 +129,8 @@ export class ChatService {
 
     return this.prismaService.message.update({
       where: { id: messageId },
-      include: { attachments: true},
-      data: { text: newText, editedAt: new Date(), },
+      include: { attachments: true },
+      data: { text: newText, editedAt: new Date() },
     });
   }
 
@@ -283,6 +283,7 @@ export class ChatService {
 
   private async attachFilesToMessage(
     messageId: string,
+    chatId: string,
     files: Array<{ fileName: string; fileSize: number; fileUrl: string }>,
   ): Promise<void> {
     await Promise.all(
@@ -291,6 +292,7 @@ export class ChatService {
         await this.prismaService.attachment.create({
           data: {
             messageId,
+            chatId,
             uuidURI: file.fileUrl,
             fileSize: file.fileSize,
             fileExt,
@@ -302,6 +304,7 @@ export class ChatService {
   }
 
   private async cascadeDeleteChat(chatId: string): Promise<void> {
+    await this.prismaService.attachment.deleteMany({ where: { chatId } });
     await this.prismaService.message.deleteMany({ where: { chatId } });
     await this.prismaService.chatMember.deleteMany({ where: { chatId } });
     await this.prismaService.chat.delete({ where: { id: chatId } });

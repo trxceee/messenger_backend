@@ -4027,6 +4027,7 @@ export namespace Prisma {
 
   export type AttachmentMinAggregateOutputType = {
     id: string | null
+    chatId: string | null
     messageId: string | null
     uuidURI: string | null
     fileName: string | null
@@ -4038,6 +4039,7 @@ export namespace Prisma {
 
   export type AttachmentMaxAggregateOutputType = {
     id: string | null
+    chatId: string | null
     messageId: string | null
     uuidURI: string | null
     fileName: string | null
@@ -4049,6 +4051,7 @@ export namespace Prisma {
 
   export type AttachmentCountAggregateOutputType = {
     id: number
+    chatId: number
     messageId: number
     uuidURI: number
     fileName: number
@@ -4070,6 +4073,7 @@ export namespace Prisma {
 
   export type AttachmentMinAggregateInputType = {
     id?: true
+    chatId?: true
     messageId?: true
     uuidURI?: true
     fileName?: true
@@ -4081,6 +4085,7 @@ export namespace Prisma {
 
   export type AttachmentMaxAggregateInputType = {
     id?: true
+    chatId?: true
     messageId?: true
     uuidURI?: true
     fileName?: true
@@ -4092,6 +4097,7 @@ export namespace Prisma {
 
   export type AttachmentCountAggregateInputType = {
     id?: true
+    chatId?: true
     messageId?: true
     uuidURI?: true
     fileName?: true
@@ -4190,6 +4196,7 @@ export namespace Prisma {
 
   export type AttachmentGroupByOutputType = {
     id: string
+    chatId: string
     messageId: string
     uuidURI: string
     fileName: string
@@ -4220,6 +4227,7 @@ export namespace Prisma {
 
   export type AttachmentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    chatId?: boolean
     messageId?: boolean
     uuidURI?: boolean
     fileName?: boolean
@@ -4232,6 +4240,7 @@ export namespace Prisma {
 
   export type AttachmentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    chatId?: boolean
     messageId?: boolean
     uuidURI?: boolean
     fileName?: boolean
@@ -4244,6 +4253,7 @@ export namespace Prisma {
 
   export type AttachmentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    chatId?: boolean
     messageId?: boolean
     uuidURI?: boolean
     fileName?: boolean
@@ -4256,6 +4266,7 @@ export namespace Prisma {
 
   export type AttachmentSelectScalar = {
     id?: boolean
+    chatId?: boolean
     messageId?: boolean
     uuidURI?: boolean
     fileName?: boolean
@@ -4265,7 +4276,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type AttachmentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "messageId" | "uuidURI" | "fileName" | "fileExt" | "fileSize" | "createdAt" | "updatedAt", ExtArgs["result"]["attachment"]>
+  export type AttachmentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "chatId" | "messageId" | "uuidURI" | "fileName" | "fileExt" | "fileSize" | "createdAt" | "updatedAt", ExtArgs["result"]["attachment"]>
   export type AttachmentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     message?: boolean | MessageDefaultArgs<ExtArgs>
   }
@@ -4283,6 +4294,7 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
+      chatId: string
       messageId: string
       uuidURI: string
       fileName: string
@@ -4715,6 +4727,7 @@ export namespace Prisma {
    */
   interface AttachmentFieldRefs {
     readonly id: FieldRef<"Attachment", 'String'>
+    readonly chatId: FieldRef<"Attachment", 'String'>
     readonly messageId: FieldRef<"Attachment", 'String'>
     readonly uuidURI: FieldRef<"Attachment", 'String'>
     readonly fileName: FieldRef<"Attachment", 'String'>
@@ -9475,6 +9488,7 @@ export namespace Prisma {
 
   export const AttachmentScalarFieldEnum: {
     id: 'id',
+    chatId: 'chatId',
     messageId: 'messageId',
     uuidURI: 'uuidURI',
     fileName: 'fileName',
@@ -9867,6 +9881,7 @@ export namespace Prisma {
     OR?: AttachmentWhereInput[]
     NOT?: AttachmentWhereInput | AttachmentWhereInput[]
     id?: StringFilter<"Attachment"> | string
+    chatId?: StringFilter<"Attachment"> | string
     messageId?: StringFilter<"Attachment"> | string
     uuidURI?: StringFilter<"Attachment"> | string
     fileName?: StringFilter<"Attachment"> | string
@@ -9879,6 +9894,7 @@ export namespace Prisma {
 
   export type AttachmentOrderByWithRelationInput = {
     id?: SortOrder
+    chatId?: SortOrder
     messageId?: SortOrder
     uuidURI?: SortOrder
     fileName?: SortOrder
@@ -9894,6 +9910,7 @@ export namespace Prisma {
     AND?: AttachmentWhereInput | AttachmentWhereInput[]
     OR?: AttachmentWhereInput[]
     NOT?: AttachmentWhereInput | AttachmentWhereInput[]
+    chatId?: StringFilter<"Attachment"> | string
     messageId?: StringFilter<"Attachment"> | string
     uuidURI?: StringFilter<"Attachment"> | string
     fileName?: StringFilter<"Attachment"> | string
@@ -9906,6 +9923,7 @@ export namespace Prisma {
 
   export type AttachmentOrderByWithAggregationInput = {
     id?: SortOrder
+    chatId?: SortOrder
     messageId?: SortOrder
     uuidURI?: SortOrder
     fileName?: SortOrder
@@ -9925,6 +9943,7 @@ export namespace Prisma {
     OR?: AttachmentScalarWhereWithAggregatesInput[]
     NOT?: AttachmentScalarWhereWithAggregatesInput | AttachmentScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Attachment"> | string
+    chatId?: StringWithAggregatesFilter<"Attachment"> | string
     messageId?: StringWithAggregatesFilter<"Attachment"> | string
     uuidURI?: StringWithAggregatesFilter<"Attachment"> | string
     fileName?: StringWithAggregatesFilter<"Attachment"> | string
@@ -10443,6 +10462,7 @@ export namespace Prisma {
 
   export type AttachmentCreateInput = {
     id?: string
+    chatId: string
     uuidURI: string
     fileName: string
     fileExt: string
@@ -10454,6 +10474,7 @@ export namespace Prisma {
 
   export type AttachmentUncheckedCreateInput = {
     id?: string
+    chatId: string
     messageId: string
     uuidURI: string
     fileName: string
@@ -10465,6 +10486,7 @@ export namespace Prisma {
 
   export type AttachmentUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    chatId?: StringFieldUpdateOperationsInput | string
     uuidURI?: StringFieldUpdateOperationsInput | string
     fileName?: StringFieldUpdateOperationsInput | string
     fileExt?: StringFieldUpdateOperationsInput | string
@@ -10476,6 +10498,7 @@ export namespace Prisma {
 
   export type AttachmentUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    chatId?: StringFieldUpdateOperationsInput | string
     messageId?: StringFieldUpdateOperationsInput | string
     uuidURI?: StringFieldUpdateOperationsInput | string
     fileName?: StringFieldUpdateOperationsInput | string
@@ -10487,6 +10510,7 @@ export namespace Prisma {
 
   export type AttachmentCreateManyInput = {
     id?: string
+    chatId: string
     messageId: string
     uuidURI: string
     fileName: string
@@ -10498,6 +10522,7 @@ export namespace Prisma {
 
   export type AttachmentUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    chatId?: StringFieldUpdateOperationsInput | string
     uuidURI?: StringFieldUpdateOperationsInput | string
     fileName?: StringFieldUpdateOperationsInput | string
     fileExt?: StringFieldUpdateOperationsInput | string
@@ -10508,6 +10533,7 @@ export namespace Prisma {
 
   export type AttachmentUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    chatId?: StringFieldUpdateOperationsInput | string
     messageId?: StringFieldUpdateOperationsInput | string
     uuidURI?: StringFieldUpdateOperationsInput | string
     fileName?: StringFieldUpdateOperationsInput | string
@@ -11109,6 +11135,7 @@ export namespace Prisma {
 
   export type AttachmentCountOrderByAggregateInput = {
     id?: SortOrder
+    chatId?: SortOrder
     messageId?: SortOrder
     uuidURI?: SortOrder
     fileName?: SortOrder
@@ -11124,6 +11151,7 @@ export namespace Prisma {
 
   export type AttachmentMaxOrderByAggregateInput = {
     id?: SortOrder
+    chatId?: SortOrder
     messageId?: SortOrder
     uuidURI?: SortOrder
     fileName?: SortOrder
@@ -11135,6 +11163,7 @@ export namespace Prisma {
 
   export type AttachmentMinOrderByAggregateInput = {
     id?: SortOrder
+    chatId?: SortOrder
     messageId?: SortOrder
     uuidURI?: SortOrder
     fileName?: SortOrder
@@ -12033,6 +12062,7 @@ export namespace Prisma {
 
   export type AttachmentCreateWithoutMessageInput = {
     id?: string
+    chatId: string
     uuidURI: string
     fileName: string
     fileExt: string
@@ -12043,6 +12073,7 @@ export namespace Prisma {
 
   export type AttachmentUncheckedCreateWithoutMessageInput = {
     id?: string
+    chatId: string
     uuidURI: string
     fileName: string
     fileExt: string
@@ -12160,6 +12191,7 @@ export namespace Prisma {
     OR?: AttachmentScalarWhereInput[]
     NOT?: AttachmentScalarWhereInput | AttachmentScalarWhereInput[]
     id?: StringFilter<"Attachment"> | string
+    chatId?: StringFilter<"Attachment"> | string
     messageId?: StringFilter<"Attachment"> | string
     uuidURI?: StringFilter<"Attachment"> | string
     fileName?: StringFilter<"Attachment"> | string
@@ -12819,6 +12851,7 @@ export namespace Prisma {
 
   export type AttachmentCreateManyMessageInput = {
     id?: string
+    chatId: string
     uuidURI: string
     fileName: string
     fileExt: string
@@ -12829,6 +12862,7 @@ export namespace Prisma {
 
   export type AttachmentUpdateWithoutMessageInput = {
     id?: StringFieldUpdateOperationsInput | string
+    chatId?: StringFieldUpdateOperationsInput | string
     uuidURI?: StringFieldUpdateOperationsInput | string
     fileName?: StringFieldUpdateOperationsInput | string
     fileExt?: StringFieldUpdateOperationsInput | string
@@ -12839,6 +12873,7 @@ export namespace Prisma {
 
   export type AttachmentUncheckedUpdateWithoutMessageInput = {
     id?: StringFieldUpdateOperationsInput | string
+    chatId?: StringFieldUpdateOperationsInput | string
     uuidURI?: StringFieldUpdateOperationsInput | string
     fileName?: StringFieldUpdateOperationsInput | string
     fileExt?: StringFieldUpdateOperationsInput | string
@@ -12849,6 +12884,7 @@ export namespace Prisma {
 
   export type AttachmentUncheckedUpdateManyWithoutMessageInput = {
     id?: StringFieldUpdateOperationsInput | string
+    chatId?: StringFieldUpdateOperationsInput | string
     uuidURI?: StringFieldUpdateOperationsInput | string
     fileName?: StringFieldUpdateOperationsInput | string
     fileExt?: StringFieldUpdateOperationsInput | string

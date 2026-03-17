@@ -70,6 +70,7 @@ model Message {
 model Attachment {
   id String @id @default(uuid())
 
+  chatId    String
   messageId String
   message   Message @relation(fields: [messageId], references: [id])
   uuidURI   String
