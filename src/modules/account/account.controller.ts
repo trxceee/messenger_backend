@@ -21,6 +21,7 @@ import { ChangePasswordDto } from '@/src/modules/account/dto/change-password.dto
 import { ChangeEmailDto } from '@/src/modules/account/dto/chnage-email.dto';
 import { CompleteAccountDto } from './dto/user-complete.dto';
 import { ChangeNameDto } from './dto/change-name.dto';
+import 'multer';
 
 @Controller('account')
 export class AccountController {
