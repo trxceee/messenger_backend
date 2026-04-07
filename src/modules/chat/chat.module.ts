@@ -3,11 +3,11 @@ import { ChatService } from './chat.service';
 import { ChatGateway } from './chat.gateway';
 import { ChatController } from './chat.controller';
 import { PrismaService } from '@/src/core/prisma/prisma.service';
-import { FilesModule } from '../files/files.module';
+import { UsersModule } from '../users/users.module';
 
 @Module({
   providers: [ChatGateway, ChatService, PrismaService],
   controllers: [ChatController],
-  imports: [FilesModule]
+  imports: [UsersModule]
 })
 export class ChatModule {}

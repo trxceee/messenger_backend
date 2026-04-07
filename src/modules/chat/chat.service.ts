@@ -1,6 +1,7 @@
 import { Chat, Message, Prisma, User } from '@/prisma/generated/prisma';
 import { PrismaService } from '@/src/core/prisma/prisma.service';
 import {
+  ConflictException,
   ForbiddenException,
   forwardRef,
   Inject,
@@ -8,7 +9,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { ChatGateway } from './chat.gateway';
-import { FilesService } from '../files/files.service';
+import { UsersService } from '../users/users.service';
 
 type ChatWithUsers = Prisma.ChatGetPayload<{
   include: {
@@ -39,7 +40,7 @@ export class ChatService {
     private readonly prismaService: PrismaService,
     @Inject(forwardRef(() => ChatGateway))
     private readonly chatGateway: ChatGateway,
-    private readonly filesService: FilesService,
+    private readonly usersService: UsersService,
   ) {}
 
   public async getDm(user: User, userBId: string): Promise<Chat> {
@@ -59,7 +60,17 @@ export class ChatService {
         isGroup: false,
         members: { some: { userId: user.id } },
       },
-      include: CHAT_FULL_INCLUDE,
+      include: {
+        ...CHAT_FULL_INCLUDE,
+        messages: {
+          ...CHAT_FULL_INCLUDE.messages,
+          where: {
+            NOT: {
+              AND: [{ isBlocked: true }, { senderId: { not: user.id } }],
+            },
+          },
+        },
+      },
       orderBy: { updatedAt: 'asc' },
     });
 
@@ -72,7 +83,12 @@ export class ChatService {
     await this.assertIsMember(chatId, userId);
 
     return this.prismaService.message.findMany({
-      where: { chatId },
+      where: {
+        chatId,
+        NOT: {
+          AND: [{ isBlocked: true }, { senderId: { not: userId } }],
+        },
+      },
       orderBy: { createdAt: 'asc' },
       include: MESSAGE_FULL_INCLUDE,
     });
@@ -85,9 +101,10 @@ export class ChatService {
     files?: Array<{ fileName: string; fileSize: number; fileUrl: string }>,
   ): Promise<Message> {
     await this.assertIsMember(chatId, senderId);
-
+    const isBlocked = await this.isBlockedUser(chatId, senderId);
+    console.log('isBlocked')
     const message = await this.prismaService.message.create({
-      data: { chatId, senderId, text },
+      data: { chatId, senderId, text, isBlocked },
     });
 
     if (files?.length) {
@@ -317,6 +334,34 @@ export class ChatService {
         message: 'Вы не являетесь участником чата.',
       });
     }
+  }
+
+  public async isBlockedUser(chatId: string, userId: string) {
+    const chat = await this.searchChat(chatId);
+    if (!chat) throw new NotFoundException({ message: 'Чат не найден.' });
+
+    const receiverId = await chat.members.find((m) => m.userId !== userId)
+      ?.userId;
+
+    const sender = await this.usersService.findUser(userId);
+    const receiver = await this.usersService.findUser(receiverId ?? '');
+
+    if (!sender || !receiver) {
+      throw new NotFoundException({ messsages: 'Пользователь не найден' });
+    }
+
+    return await this.usersService.isBlocked(sender, receiver);
+  }
+
+  private async searchChat(chatId: string): Promise<ChatWithUsers | null> {
+    const chat = await this.prismaService.chat.findUnique({
+      where: { id: chatId },
+      include: {
+        members: { include: { user: true } },
+        messages: { include: { attachments: true, chat: true } },
+      },
+    });
+    return chat;
   }
 
   private assertIsSender(message: { senderId: string }, userId: string): void {

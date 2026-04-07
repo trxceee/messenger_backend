@@ -189,6 +189,32 @@ export class UsersService {
 
   // helpers
 
+  public async findUser(id: string): Promise<User | null> {
+    const user = await this.prismaService.user.findUnique({
+      where: { id },
+    });
+
+    return user;
+  }
+
+  public async isBlocked(myUser: User, blockedUser: User): Promise<boolean> {
+    if (
+      myUser.blockedUsers.includes(blockedUser.id) ||
+      blockedUser.blockedUsers.includes(myUser.id)
+    ) {
+      // throw new ConflictException({
+      //   message: 'Вы заблокировали данного пользователя',
+      //   type: 'YOU_ARE_BLOCKED_THIS_USER',
+      // });
+      // throw new ConflictException({
+      //   message: 'Пользователь вас заблокировал',
+      //   type: 'YOU_ARE_BLOCKED',
+      // });
+      return true;
+    }
+    return false;
+  }
+
   private async findContactUser(findBy: TypeFindBy) {
     const findContactUser = await this.prismaService.user.findUnique({
       where: findBy,
