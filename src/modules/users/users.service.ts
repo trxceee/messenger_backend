@@ -126,8 +126,8 @@ export class UsersService {
 
     const contact = await this.prismaService.userContacts.findFirst({
       where: {
-        username: foundUser.username,
-        usernameContact: user.username,
+        usernameContact: foundUser.username,
+        username: user.username,
       },
     });
 
@@ -166,6 +166,7 @@ export class UsersService {
       avatars: foundUser.avatars,
       lastSeen: foundUser.lastSeen,
     };
+    console.log(result)
 
     for (const { key, value, visibility } of visibleFields) {
       if (this.isVisible(visibility, isContact, isSelf)) {
