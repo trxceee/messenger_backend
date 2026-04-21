@@ -131,6 +131,13 @@ export class UsersService {
       },
     });
 
+    const myContact = await this.prismaService.userContacts.findFirst({
+      where: {
+        username: user.username,
+        usernameContact: foundUser.username,
+      },
+    });
+
     const isContact = !!contact;
     const isSelf = foundUser.id === user.id;
 
@@ -160,8 +167,8 @@ export class UsersService {
     const result: Partial<User> = {
       id: foundUser.id,
       username: foundUser.username,
-      firstName: isContact ? contact.firstNameContact : foundUser.firstName,
-      lastName: isContact ? contact.lastNameContact : foundUser.lastName,
+      firstName: myContact ? myContact.firstNameContact : foundUser.firstName,
+      lastName: myContact ? myContact.lastNameContact : foundUser.lastName,
       isOnline: foundUser.isOnline,
       avatars: foundUser.avatars,
       lastSeen: foundUser.lastSeen,
