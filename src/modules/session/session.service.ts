@@ -35,9 +35,10 @@ export class SessionService {
     req: Request,
     userAgent: string,
   ): Promise<unknown> {
-    const { number, cloudPassword } = dto;
+    const { number, cloudPassword, code } = dto;
     const existedUser = await this.existUser(number);
 
+    // await this.accountService.verifyOtpCode(number, code); 
     await this.verifyPassword(existedUser.cloudPassword, cloudPassword);
     await this.deleteCodes(number);
 
