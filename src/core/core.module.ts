@@ -11,6 +11,7 @@ import { UsersModule } from '../modules/users/users.module';
 import { SessionModule } from '../modules/session/session.module';
 import { MulterModule } from '@nestjs/platform-express';
 import { FilesModule } from '../modules/files/files.module';
+import { CallModule } from '../modules/call/call.module';
 
 @Module({
   imports: [
@@ -22,7 +23,8 @@ import { FilesModule } from '../modules/files/files.module';
     ChatModule,
     UsersModule,
     FilesModule,
-    MulterModule.register()
+    CallModule,
+    MulterModule.register(),
   ],
   providers: [
     PrismaService,

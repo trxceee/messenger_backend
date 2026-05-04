@@ -12,7 +12,7 @@ import { forwardRef, Inject } from '@nestjs/common';
 @WebSocketGateway({
   cors: { origin: { origin: '*' } },
   transports: ['websocket'],
-  namespace: 'chat',
+  // namespace: 'chat',
 })
 export class ChatGateway {
   constructor(
