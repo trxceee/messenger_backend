@@ -5,60 +5,66 @@ import {
   WebSocketGateway,
   WebSocketServer,
 } from '@nestjs/websockets';
-import { CallService } from './call.service';
 import { Socket, Server } from 'socket.io';
 
 @WebSocketGateway({
   cors: { origin: { origin: '*' } },
   transports: ['websocket'],
-  // namespace: 'call',
 })
 export class CallGateway {
-  constructor(private readonly callService: CallService) {}
+  constructor() {}
 
   @WebSocketServer() server: Server;
 
   @SubscribeMessage('callOffer')
   public async handleCreateOffer(
-    @MessageBody() data: { chatId: string; offer: RTCSessionDescriptionInit },
+    @MessageBody() data: { targetUserId: string; chatId: string; offer: RTCSessionDescriptionInit },
     @ConnectedSocket() client: Socket,
   ) {
     const userId = client.handshake.auth.userId;
     if (!userId) return client.disconnect();
 
-    client.to(`chat:${data.chatId}`).emit('call:offer', data.offer);
+    client
+      .to(`room:${data.targetUserId}`)
+      .emit('call:offer', { data: data.offer, userId, chatId: data.chatId });
   }
 
   @SubscribeMessage('callAnswer')
   public async handleCreateAnswer(
-    @MessageBody() data: { chatId: string; answer: RTCSessionDescriptionInit },
+    @MessageBody() data: { targetUserId: string; answer: RTCSessionDescriptionInit },
     @ConnectedSocket() client: Socket,
   ) {
     const userId = client.handshake.auth.userId;
     if (!userId) return client.disconnect();
 
-    client.to(`chat:${data.chatId}`).emit('call:answer', data.answer);
+    client
+      .to(`room:${data.targetUserId}`)
+      .emit('call:answer', data.answer);
   }
 
   @SubscribeMessage('iceCandidate')
   public async handleIceCandidate(
-    @MessageBody() data: { chatId: string; candidate: RTCIceCandidate },
+    @MessageBody() data: { targetUserId: string; candidate: RTCIceCandidate },
     @ConnectedSocket() client: Socket,
   ) {
     const userId = client.handshake.auth.userId;
     if (!userId) return client.disconnect();
 
-    client.to(`chat:${data.chatId}`).emit('call:ice-candidate', data.candidate);
+    client
+      .to(`room:${data.targetUserId}`)
+      .emit('call:ice-candidate', data.candidate);
   }
 
   @SubscribeMessage('closeCall')
   public async handleCloseCall(
-    @MessageBody() data: { chatId: string },
+    @MessageBody() data: { targetUserId: string },
     @ConnectedSocket() client: Socket,
   ) {
     const userId = client.handshake.auth.userId;
     if (!userId) return client.disconnect();
 
-    client.to(`chat:${data.chatId}`).emit('call:on-closing');
+    client
+      .to(`room:${data.targetUserId}`)
+      .emit('call:on-closing');
   }
 }
